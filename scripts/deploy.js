@@ -17,11 +17,6 @@ const main = async () => {
   let transaction = await nftContract.makeAnEpicNFT();
   // Wait for it to be mined
   await transaction.wait();
-
-  // Mint another NFT for fun
-  transaction = await nftContract.makeAnEpicNFT();
-  // Wait for it to be mined
-  await transaction.wait();
 };
 
 const runMain = async () => {
