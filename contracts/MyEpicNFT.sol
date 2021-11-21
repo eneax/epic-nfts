@@ -2,10 +2,42 @@
 
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 import "hardhat/console.sol";
 
-contract MyEpicNFT {
-    constructor() {
+// Inherit the contract we imported, so we can use its methods
+contract MyEpicNFT is ERC721URIStorage {
+    // OpenZeppelin helps us keep track of `tokenIds`
+    // it's a unique identifier that starts at 0
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
+
+    // We need to pass the name of our NFTs token and it's symbol
+    // `ERC721` is the NFT standard
+    constructor() ERC721("SquareNFT", "SQUARE") {
         console.log("This is my NFT contract!");
+    }
+
+    // Public function that users will hit to get their NFT
+    function makeAnEpicNFT() public {
+        // Get the current tokenId
+        uint256 newItemId = _tokenIds.current();
+
+        // Mint the NFT with id `newItemId` to the user with public address `msg.sender`
+        // You can't call a contract anonymously, you need to have your wallet credentials connected (just like "signing in" and being authenticated).
+        _safeMint(msg.sender, newItemId);
+
+        // Set the NFTs unique identifier along with the data associated with that unique identifier
+        // This is what makes the NFT valuable!!!
+        _setTokenURI(newItemId, "https://jsonkeeper.com/b/307Y");
+        console.log(
+            "An NFT with ID %s has been minted to %s",
+            newItemId,
+            msg.sender
+        );
+
+        // Increment the counter for when the next NFT is minted
+        _tokenIds.increment();
     }
 }
