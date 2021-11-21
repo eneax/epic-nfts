@@ -12,6 +12,16 @@ const main = async () => {
   // Contract address is printed on the console
   // This address is how we can find our contract on the blockchain
   console.log("Contract deployed to this address:", nftContract.address);
+
+  // Call public function from contract
+  let transaction = await nftContract.makeAnEpicNFT();
+  // Wait for it to be mined
+  await transaction.wait();
+
+  // Mint another NFT for fun
+  transaction = await nftContract.makeAnEpicNFT();
+  // Wait for it to be mined
+  await transaction.wait();
 };
 
 const runMain = async () => {
