@@ -94,7 +94,7 @@ contract MyEpicNFT is ERC721URIStorage {
     // We need to pass the name of our NFTs token and it's symbol
     // `ERC721` is the NFT standard
     constructor() ERC721("SquareNFT", "SQUARE") {
-        console.log("This is my NFT contract!");
+        console.log("Enjoy my Epic NFT contract!");
     }
 
     // Randomly pick a word from each array
@@ -140,10 +140,15 @@ contract MyEpicNFT is ERC721URIStorage {
         return uint256(keccak256(abi.encodePacked(input)));
     }
 
+    function getTotalNFTsMintedSoFar() external view returns (uint256) {
+        return _tokenIds.current() - 1;
+    }
+
     // Public function that users will hit to get their NFT
     function makeAnEpicNFT() public {
         // Get the current tokenId
         uint256 newItemId = _tokenIds.current();
+        require(newItemId < 51, "Only 50 NFTs to be minted max!");
 
         // Randomly grab one word from each of the three arrays
         string memory first = pickRandomFirstWord(newItemId);
