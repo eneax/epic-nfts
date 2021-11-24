@@ -89,6 +89,8 @@ contract MyEpicNFT is ERC721URIStorage {
         "Baklava"
     ];
 
+    event NewEpicNFTMinted(address sender, uint256 tokenId);
+
     // We need to pass the name of our NFTs token and it's symbol
     // `ERC721` is the NFT standard
     constructor() ERC721("SquareNFT", "SQUARE") {
@@ -198,5 +200,7 @@ contract MyEpicNFT is ERC721URIStorage {
             newItemId,
             msg.sender
         );
+
+        emit NewEpicNFTMinted(msg.sender, newItemId);
     }
 }
